@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadta:
+  name: cart-service
+  labels:
+    app: cart-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cart-service
+  template:
+    metadata:
+      lables:
+        app: cart-service
+    spec:
+      containers:
+      - name: cart-service
+        image: athul9thd/cart-service:v1
+        ports:
+        - containerPort: 8000

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+  labels:
+    app: userservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    labels:
+      app: userservice
+    spec:
+      containers:
+      - name: userservice
+        image: athul9thd/userservice:latest
+        ports:
+        - containerPort: 8000

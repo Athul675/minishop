@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderservice
+  labels:
+    app: orderservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: orderservice
+  template:
+    labels:
+      app: orderservice
+    spec:
+      conatiners:
+      - name: orderservice
+        image: athul9thd/orderservice:latest
+        ports:
+        - containerPort: 8000
