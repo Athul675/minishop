@@ -10,11 +10,24 @@ spec:
     matchLabels:
       app: userservice
   template:
-    labels:
-      app: userservice
+    metadata:
+      labels:
+        app: userservice
     spec:
       containers:
       - name: userservice
         image: athul9thd/userservice:latest
         ports:
         - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: postgres
+
+        - name: DB_NAME
+          value: minishop
+
+        - name: DB_USER
+          value: postgres
+
+        - name: DB_PASSWORD
+          value: postgres
