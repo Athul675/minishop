@@ -18,3 +18,15 @@ spec:
         image: athul9thd/product-service:latest
         ports:
         - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: postgres
+
+        - name: DB_NAME
+          value: minishop
+
+        - name: DB_USER
+          value: postgres
+
+        - name: DB_PASSWORD
+          value: postgres

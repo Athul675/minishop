@@ -8,4 +8,4 @@ spec:
     app: product-service
   ports:
   - port: 8000
-    containerPort: 8000
+    targetPort: 8000
