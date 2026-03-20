@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderservice
+  namespace: minishop
+  labels:
+    app: orderservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: orderservice
+  template:
+    metadata:
+      labels:
+        app: orderservice
+    spec:
+      containers:
+      - name: orderservice
+        image: athul9thd/orderservice:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: orders
+        - name: DB_USER
+          value: postgres
+        - name: DB_PASSWORD
+          value: postgres
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: order-storage
+          mountPath: /app/data
+      volumes:
+      - name: order-storage
+        persistentVolumeClaim:
+          claimName: orderservice-pvc

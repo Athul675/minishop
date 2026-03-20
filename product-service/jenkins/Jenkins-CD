@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'IMAGE_TAG',
+            defaultValue: '',
+            description: 'Docker image tag to deploy'
+        )
+    }    
+
+    environment {
+        DOCKER_IMAGE = "athul9thd/product-service"
+        KUBE_NAMESPACE = "minishop"
+        IMAGE_TAG="${params.IMAGE_TAG}"
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    stages {
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    if (!params.IMAGE_TAG?.trim()) {
+                        error("IMAGE_TAG parameter is required!")
+                    }
+                }
+
+                withCredentials([file(credentialsId: 'kube-cred', variable: 'KUBECONFIG_FILE')]) {
+                    sh """
+                        export KUBECONFIG=$KUBECONFIG_FILE
+
+                        kubectl apply -f K8s/deployment.yaml -n ${KUBE_NAMESPACE}
+
+                        kubectl set image deployment/product-service \
+                        product-service=${DOCKER_IMAGE}:${IMAGE_TAG} \
+                        -n ${KUBE_NAMESPACE}
+
+                        kubectl rollout status deployment/product-service -n ${KUBE_NAMESPACE}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment Successful for Image Tag: ${params.IMAGE_TAG}"
+        }
+
+        failure {
+            echo "Deployment Failed"
+        }
+    }
+}

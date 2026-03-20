@@ -1,0 +1,70 @@
+pipeline {
+    agent any 
+
+    environment {
+        DOCKER_IMAGE = "athul9thd/front-end"
+        DOCKER_TAG = "${BUILD_NUMBER}"
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    stages {
+         
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'git-cred',
+                    url: 'git@bitbucket.org:crimson-cloud/front-end.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh """
+                   docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                """
+            }
+        }
+
+        stage('DockerHub Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-cred',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                sh """
+                   docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                """
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker system prune -f'
+            sh 'docker image prune -a -f'
+        }
+       
+        success {
+            echo "CI Successful - Image Tag: ${DOCKER_TAG}"
+        }
+
+        failure {
+            echo "CI Failed - Image Tag: ${DOCKER_TAG}"
+        }
+    }
+}

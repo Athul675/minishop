@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+  namespace: minishop
+  labels:
+    app: userservice
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+      - name: userservice
+        image: athul9thd/userservice:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: orders
+        - name: DB_USER
+          value: postgres
+        - name: DB_PASSWORD
+          value: postgres
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: user-storage
+          mountPath: /app/data
+      volumes:
+      - name: user-storage
+        persistentVolumeClaim:
+          claimName: user-service-pvc

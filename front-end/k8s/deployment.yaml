@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  namespace: minishop
+  labels:
+    app: front-ned
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: front-end
+        image: athul9thd/front-end:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: frontend-storage
+          mountPath: /app/data
+      volumes:
+      - name: frontend-storage
+        persistentVolumeClaim:
+          claimName: front-end-pvc
