@@ -9,6 +9,8 @@ RUN npm install
 COPY . .
 
 RUN npm install -g serve
+RUN npm install react-scripts
+RUN npx react-scripts build
 
 EXPOSE 3000
 
