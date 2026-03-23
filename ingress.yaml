@@ -1,41 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: crimson-ingress
+  name: minishop-ingress
+  namespace: minishop
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: athulraj.co.in
+    http:
       paths:
-
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-end
+            port:
+              number: 3000
       - path: /api
         pathType: Prefix
         backend:
           service:
-            name: api-gateway
+            name: apigateway
             port:
-              number: 5000
-
-      - path: /orders
-        pathType: Prefix
-        backend:
-          service:
-            name: order-service
-            port:
-              number: 5000
-
-      - path: /payments
-        pathType: Prefix
-        backend:
-          service:
-            name: payment-service
-            port:
-              number: 5000
-
-      - path: /users
-        pathType: Prefix
-        backend:
-          service:
-            name: user-service
-            port:
-              number: 5000
+              number: 8000
