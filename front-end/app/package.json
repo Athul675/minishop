@@ -1,25 +1,28 @@
 {
   "name": "front-end",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "MiniShop frontend",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/crimson-cloud/front-end.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://bitbucket.org/crimson-cloud/front-end/issues"
-  },
-  "homepage": "https://bitbucket.org/crimson-cloud/front-end#readme",
   "dependencies": {
     "axios": "^1.13.6",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-scripts": "5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
