@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: apigateway
-        image: athul9thd/apigateway:latest
+        image: athul9thd/apigateway:4
         ports:
         - containerPort: 8000
         resources:

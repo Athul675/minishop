@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: orderservice
-        image: athul9thd/orderservice:latest
+        image: athul9thd/orderservice:1
         ports:
         - containerPort: 8000
         env:

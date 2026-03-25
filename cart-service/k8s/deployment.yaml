@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart-service
+  namespace: minishop
   labels:
     app: cart-service
 spec:
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: cart-service
-        image: athul9thd/cart-service:v1
+        image: athul9thd/cart-service:1
         ports:
         - containerPort: 8000
         resources:

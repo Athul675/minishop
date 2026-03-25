@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: userservice
-        image: athul9thd/userservice:latest
+        image: athul9thd/userservice:1
         ports:
         - containerPort: 8000
         env:
