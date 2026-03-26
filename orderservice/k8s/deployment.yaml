@@ -20,15 +20,11 @@ spec:
         image: athul9thd/orderservice:1
         ports:
         - containerPort: 8000
-        env:
-        - name: DB_HOST
-          value: postgres
-        - name: DB_NAME
-          value: orders
-        - name: DB_USER
-          value: postgres
-        - name: DB_PASSWORD
-          value: postgres
+        envFrom:
+        - configMapRef:
+            name: minishop-config
+        - secretRef:
+            name: minishop-secrets
         resources:
           requests:
             cpu: "50m"

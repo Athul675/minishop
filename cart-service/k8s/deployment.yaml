@@ -20,6 +20,11 @@ spec:
         image: athul9thd/cart-service:1
         ports:
         - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: minishop-config
+        - secretRef:
+            name: minishop-secrets
         resources:
           requests:
             cpu: "50m"
